@@ -1,13 +1,13 @@
+import { useState } from 'react';
 import logo from './logo.svg';
 
 function App() {
-  const hello = "안녕하세요"
-  function test() {
-    return 100;
-  }
+  let [listData,setListData] = useState(1)
   return (
     <div className="App">
-      <div>{hello}{test()} house modify_2 win</div>
+      <div>{listData}</div>
+      <button onClick={()=>{setListData(listData+1)}}>click</button>
+      <div className="han"></div>
     </div>
   );
 }
