@@ -1,50 +1,75 @@
 import { useState } from 'react';
-import logo from './logo.svg';
 import './App.css'
 
 function App() {
-  let [data, setData] = useState(1)
-  let [listData,setListData] = useState(['list1', 'list2', 'list3'])
-  let [mView,setMview] = useState(false)
-  let today = new Date();
-  let time = {
-    year : today.getFullYear(),
-    month : today.getMonth() + 1,
-    date : today.getDate(),
+  const [num, setNum] = useState(0);
+  const [data, setData] = useState([
+    '0. Lorem ipsum dolor sit amet',
+    '1. Eligendi cumque earum cupiditate rem',
+    '2. Consequuntur tempora sit illum dolores'
+  ])
 
+  const [vModal, setVModal] = useState(false);
+
+  const openList = (i)=>{
+    setNum(i)
+    setVModal(true)
   }
+
+  const handleClose = ()=>{
+    setVModal(false);
+  }
+
+
   return (
     <div className="App">
-      <div>{data}</div>
-      <button onClick={()=>{setData(data+1)}}>click</button>
-      {
-        listData.map(function(item, i){
-          return(
-            <>
-              <div className='flex'>
-                <div className='item'>{item}</div>
-                <div className='list'>{listData[i]}</div>
-                <div>{time.year}/{time.month}/{time.date}</div>
-              </div>
-            </>
-          )
-        })
-      }
-      <button onClick={()=>{setMview(!mView)}}>모달 클릭</button>
-      {
-        mView == true ? <Modal></Modal> : null 
-      }
-      
+      {num}
+      <ul className='lists'>
+        {
+          data.map(function (item, i) {
+            return (
+              <>
+                <li onClick={()=>{openList(i)}}>{item}</li>
+              </>
+            )
+          })
+        }
+      </ul>
+      <button onClick={()=>{setVModal(!vModal)}}>열기 / 닫기</button>
+
+        {
+          vModal == true ? <Modal rData = {data} rNum = {num} onClose = {handleClose} / > : null
+        }
+
     </div>
   );
 }
 
-function Modal() {
+// function Modal(props) {
+//   return(
+//     <>
+//       <div className="modal">
+//         <h3>안녕하세요</h3>
+//         <p>{props.rData[props.rNum]}</p>
+//         <div className='btnWrap'>
+//           <button  onClick={()=>{} }>닫기</button>
+//         </div>
+//       </div>
+//     </>
+//   )
+// }
+
+function Modal({rData, rNum, onClose}) {
   return(
     <>
-      <div className='modal'>
-        <h3>제목</h3>
-        <p>안녕하세요</p>
+      <div className="modal">
+        <div className='modalBody'>
+          <h3>안녕하세요</h3>
+          <p>{rData[rNum]}</p>
+        </div>
+        <div className='btnWrap'>
+          <button  onClick={onClose}>닫기</button>
+        </div>
       </div>
     </>
   )
